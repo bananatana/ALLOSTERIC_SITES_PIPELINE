@@ -18,3 +18,6 @@ The protocol is divided into several stages:
 **4.** Calculation of configurational entropy and mutual information
 **5.** Analysis of mutual information
 **6.** Identification of allosteric sites.
+
+
+## 1. System preparation for MD simulations ##
