@@ -56,7 +56,7 @@ If you want to compare the configurational entropy or connectivity maps obtained
 This part is not necessary (allosteric connectivity will still be obtained), but it gives an additional dimension to the analyses, so I mention it here so that the systems are properly prepared.
 
 
-## 1. MD simulations ##
+## 2. MD simulations ##
 After implementing the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol, it is necessary to perform  at least 1μs long MD simulation using [GROMACS](https://www.gromacs.org/). The input file looks like this:
 
 ~~~
@@ -145,8 +145,40 @@ gmx mdrun -s prod_new.tpr -o traj.trr -e ener.edr -c confout_new.gro -g producti
 
 After 1μs trajectory is ready for quality control and analysis. 
 
+## 3. Processing trajectories for analysis ##
 
+Before proceeding, it is necessary to verify that the MD simulations are stable.
+Since they are very large, it is best to first process the trajectory so that it can be visualized, and calculate the RMSD, RMSF and radius of gyration. Also, for further analysis extracted protein trajectory and corresponding pdb and gro files will be used. 
+Here is the script I am using:
+~~~
+#!/bin/bash -l
+#SBATCH -N 1
+#SBATCH -n 32
+#SBATCH -p CLUSTER-AMD
+#SBATCH -t 3-00:00:00
+ml gromacs/2021
 
+echo 0 | gmx trjconv -s topol_prod.tpr -b 0 -e 0 -o start.gro
+echo 0 | gmx trjconv -s topol_prod.tpr -b 0 -e 0 -o start.pdb
+echo 1 | gmx trjconv -s topol_prod.tpr -b 0 -e 0 -o protein.pdb
+echo 1 | gmx trjconv -s topol_prod.tpr -b 0 -e 0 -o protein.gro
+echo 1 1 | gmx trjconv -pbc mol -s topol_prod.tpr  -center -ur compact -f traj_prod.xtc -o traj_protein.xtc
+echo 1 0 | gmx trjconv -pbc mol -s topol_prod.tpr  -center -ur compact -f traj_prod.xtc -o traj_centered_to_start.xtc -skip 10
+echo 0 1 | gmx rms -tu ns -n index.ndx -f traj_centered_to_start.xtc  -s start.pdb -o rmsd_protein.xvg
+echo 0 13 | gmx rms -tu ns -n index.ndx -f traj_centered_to_start.xtc  -s start.pdb -o rmsd_lig.xvg
+echo 1 | gmx rmsf -res -n index.ndx -f traj_centered_to_start.xtc  -s start.pdb -o rmsf.xvg
+echo 1 | gmx gyrate -n index.ndx -f traj_centered_to_start.xtc  -s start.pdb -o gyrate.xvg
 
+cp rmsd_lig.xvg ../final_analysis/A1_ACTIVE-rmsd_lig.xvg
+cp rmsf.xvg ../final_analysis/A1_ACTIVE-rmsf.xvg
+cp gyrate.xvg ../final_analysis/A1_ACTIVE-gyrate.xvg
+cp rmsd_protein.xvg ../final_analysis/A1_ACTIVE-rmsd_protein.xvg
+~~~
+
+For visualisation, open traj_centered_to_start.xtc on top of start.gro. The visualization serves to examine the stability in the orthosteric site as well as to select the amino acid residues that interact with the orthosteric ligand.
+
+I also use [TrajMap](https://github.com/matkozic/TrajMap) to visualise stabily of receptor throught the simulation. 
+
+## 4. Calculation of configurational entropy and mutual information ##
 
 
