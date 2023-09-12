@@ -47,4 +47,11 @@ a.make()
 
 If you want to map the active conformation of GPCR, make sure that the initial model should contain G protein (at least alpha subunit). From experience, the active conformation is not stable during MD simulation without G protein.
 
+### 1.1. Assembling system for MD simulations ###
+When you have all the necessary (and complete) molecules for MD simulation (GPCR, G protein, orthosteric ligand, allosteric ligand, ions, crystal waters, cholesterol molecules), first you need to align everything using the [PPM web server](https://opm.phar.umich.edu/ppm_server) so that the placement in the membrane is correct. 
+After that you can continue with the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol.
+
+## 1. MD simulations ##
+
+
 
