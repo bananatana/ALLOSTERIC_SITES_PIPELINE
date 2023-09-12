@@ -53,7 +53,7 @@ After that you can continue with the [PYMEMDYN](https://github.com/GPCR-ModSim/p
 
 ### IMPORTANT NOTICE ### 
 If you want to compare the configurational entropy or connectivity maps obtained for the inactive and active GPCR conformation, it is necessary that both systems (only receptor protein) have the same number of atoms (the same number of degrees of freedom). This includes the same number of residues, the same protonation states of amino acid residues and the same number of disulfide bridges.
-This part is not necessary (allosteric connectivity will still be obtained), but it gives an additional dimension to the analyses, so I mention it here so that the systems are properly prepared,
+This part is not necessary (allosteric connectivity will still be obtained), but it gives an additional dimension to the analyses, so I mention it here so that the systems are properly prepared.
 
 
 ## 1. MD simulations ##
