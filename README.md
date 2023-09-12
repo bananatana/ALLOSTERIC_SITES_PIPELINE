@@ -26,7 +26,8 @@ The first thing that is needed is a high-quality (and complete) structure of the
 I used refined structure ([Alphafold](https://alphafold.ebi.ac.uk/)) with [GPCRdb](https://gpcrdb.org/). Be sure to check if the structure makes sense (hyper structuring may occur when using Alphafold).
 [Modeller](https://salilab.org/modeller/) can also be used for smaller reconstructions. If you need to add cysteine ​​bridges while using Modeller, the script for modeling looks like this:
 
-~~~from modeller import *
+~~~
+from modeller import *
 from modeller.automodel import *    # Load the AutoModel class
 log.verbose()
 env = Environ()
@@ -34,8 +35,8 @@ env = Environ()
 env.io.atom_files_directory = ['.','.']
 class MyModel(AutoModel):
     def select_atoms(self):
-        return Selection(self.residue_range('150:A', '168:A'),
-                         self.residue_range('218:A', '223:A'))
+        return Selection(self.residue_range('150:A', '168:A'),      #missing loop
+                         self.residue_range('218:A', '223:A'))      #missing loop
 # Redefine the special_patches routine to include the additional disulfides
 # (this routine is empty by default):
 class MyModel(AutoModel):
@@ -47,9 +48,9 @@ class MyModel(AutoModel):
         self.patch(residue_type='DISU', residues=(self.residues['151:A'],
                                                   self.residues['164:A']))
 a = MyModel(env, alnfile = './alignment.ali',
-            knowns = '7XY7', sequence = '7XY7_fill')
+            knowns = 'Structure', sequence = 'Stucture_fill')
 a.starting_model= 1
 a.ending_model  = 5
-a.make()~~~
-
+a.make()
+~~~
 
