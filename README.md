@@ -54,3 +54,5 @@ a.ending_model  = 5
 a.make()
 ~~~
 
+If you want to map the active conformation of GPCR, make sure that the initial model should contain G protein (at least alpha subunit). From experience, the active conformation is not stable during MD simulation without G protein.
+
