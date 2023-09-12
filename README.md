@@ -52,7 +52,7 @@ When you have all the necessary (and complete) molecules for MD simulation (GPCR
 After that you can continue with the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol.
 
 ## 1. MD simulations ##
-After implementing the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol, it is necessary to perform 1us MD simulations. The input file looks like this:
+After implementing the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol, it is necessary to perform  at least 1μs long MD simulation using [GROMACS](https://www.gromacs.org/). The input file looks like this:
 
 ~~~
 ; title =  Production run for PARENT
@@ -98,8 +98,49 @@ pcoupltype          =  semiisotropic
 ;gen_vel             =  yes
 ;gen_temp            =  310
 ;gen_seed            =  -1
-
 ~~~
+
+After modifying prod.mdp run do grompp:
+~~~
+gmx grompp -f prod.mdp -c confout.gro -p topol.top -n index.ndx -o topol_prod.tpr --maxwarn 2
+~~~
+
+Take into account that due to the size of the system you probably won't be able to run the entire length of the trajectory at once; it is optimal to do it five times for 200 ns.
+Now you can run your simulation. Here I provide example of my running script from Berzelius:
+~~~
+#!/bin/bash -l
+#SBATCH --time=3-00:00:00
+#SBATCH -N 1
+#SBATCH -c 16
+#SBATCH --gpus 1
+#SBATCH --job-name=allosteric
+export GMX_BIN=/proj/compbiochem/users/bin/gromacs-2022.4/bin/gmx
+export RUNDIR=$TMPDIR/$SLURM_JOB_ID
+echo "Host: $(hostname)"
+echo "Tmpdir: $RUNDIR"
+echo "Jobdir: $SLURM_SUBMIT_DIR"
+# copy files to scratch dir
+rsync -ah $SLURM_SUBMIT_DIR/ $RUNDIR/ --exclude="slurm*" --exclude="*.sh"
+cd $RUNDIR
+${GMX_BIN} mdrun -s topol_prod.tpr -o traj.trr -e ener.edr -c confout.gro -g production.log -x traj_prod.xtc -cpo mdrun.cpt
+rsync -ah --update  $RUNDIR/ $SLURM_SUBMIT_DIR/
+## cleanup
+rm -rf $RUNDIR
+echo "Done"
+~~~
+
+As first increment of simulation finishes, you extend your simulation with desired number of steps:
+~~~
+gmx convert-tpr -s topol_prod.tpr -extend 200000 -o prod_new.tpr #extend for 200ns
+~~~
+And then run from the checkpoint file with the same running script:
+~~~
+gmx mdrun -s prod_new.tpr -o traj.trr -e ener.edr -c confout_new.gro -g production.log -x traj_prod.xtc -cpo mdrun_new.cpt -cpi mdrun.cpt
+~~~
+
+After 1μs trajectory is ready for quality control and analysis. 
+
+
 
 
 
