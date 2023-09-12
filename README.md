@@ -1,13 +1,4 @@
-# GPCR ALLOSTERIC SITE SEARCH PIPELINE
-## GPCR ALLOSTERIC SITE SEARCH PIPELINE
-### GPCR ALLOSTERIC SITE SEARCH PIPELINE
-#### GPCR ALLOSTERIC SITE SEARCH PIPELINE
-
-
-**bold**
-_italic_
-__italic__
-
+#GPCR ALLOSTERIC SITE SEARCH PIPELINE#
 
 A framework that uses a combination of different scripts to analyze allosteric connectivity within GPCR proteins and and identifies possible allosteric sites. 
 The protocol is divided into several stages:
@@ -55,4 +46,5 @@ a.make()
 ~~~
 
 If you want to map the active conformation of GPCR, make sure that the initial model should contain G protein (at least alpha subunit). From experience, the active conformation is not stable during MD simulation without G protein.
+
 
