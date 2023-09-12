@@ -51,6 +51,11 @@ If you want to map the active conformation of GPCR, make sure that the initial m
 When you have all the necessary (and complete) molecules for MD simulation (GPCR, G protein, orthosteric ligand, allosteric ligand, ions, crystal waters, cholesterol molecules), first you need to align everything using the [PPM web server](https://opm.phar.umich.edu/ppm_server) so that the placement in the membrane is correct. 
 After that you can continue with the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol.
 
+### IMPORTANT NOTICE ### 
+If you want to compare the configurational entropy or connectivity maps obtained for the inactive and active GPCR conformation, it is necessary that both systems (only receptor protein) have the same number of atoms (the same number of degrees of freedom). This includes the same number of residues, the same protonation states of amino acid residues and the same number of disulfide bridges.
+This part is not necessary (allosteric connectivity will still be obtained), but it gives an additional dimension to the analyses, so I mention it here so that the systems are properly prepared,
+
+
 ## 1. MD simulations ##
 After implementing the [PYMEMDYN](https://github.com/GPCR-ModSim/pymemdyn) protocol, it is necessary to perform  at least 1μs long MD simulation using [GROMACS](https://www.gromacs.org/). The input file looks like this:
 
