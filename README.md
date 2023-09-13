@@ -213,6 +213,12 @@ You will need g++ and python libraries to work: numpy, pandas, seaborn, json, py
 
 Download [PARENT](https://github.com/markusfleck/PARENT) results localy and use [ARTEMIS](https://github.com/nalsur-veallam/ARTEMIS) utilities to analyse your results. 
 
+Define your orthosteric (and allosteric site if it exist) in a form or *json file. Here is an example: 
+~~~
+{"act_s": [253,278,277,171]}
+~~~
+Also, be carefull because [PARENT](https://github.com/markusfleck/PARENT) counts residues from 1, so if your protein starts with 4, adjust residue numbers accordingly.
+
 Run in turn:
 ~~~
 bash gen_map.sh
@@ -225,7 +231,11 @@ bash analysis.sh
 ~~~
 
 After obtaining results, run command:
+~~~
+python3 src/python/allostery_paint.py -strc sctructure.pdb(.gro ...) -f_act act_site.json -asn act_site_name -f_all all_site.json -allsn all_site_name -n project_name
+~~~
 
+to get visual representation of MI intensity in a form of Pymol session. 
  
 
 
