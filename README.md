@@ -7,7 +7,7 @@ The protocol is divided into several stages:
 **2.** MD simulations  
 **3.** Processing trajectories for analysis  
 **4.** Calculation of configurational entropy and mutual information  
-**5.** Analysis of mutual information  
+**5.** Analysis of mutual information 
 **6.** Identification of allosteric sites.  
 
 
@@ -180,5 +180,38 @@ For visualisation, open traj_centered_to_start.xtc on top of start.gro. The visu
 I also use [TrajMap](https://github.com/matkozic/TrajMap) to visualise stabily of receptor throught the simulation. 
 
 ## 4. Calculation of configurational entropy and mutual information ##
+
+After obtaining clean GPCR trajectories, use [PARENT](https://github.com/markusfleck/PARENT).  It calculates the configurational entropy according to the pairwise Mutual Information Expansion (MIE) or the Maximum Information Spanning Tree (MIST). Although MIST is based on a different mathematical framework than MIE, it relies on the same terms to be computed as for MIE. [PARENT](https://github.com/markusfleck/PARENT) gives both results, but MIST results seems to be more converged. The easiest way to assess how good and meaningful the results are is to calculate the	ΔS between the inactive and active conformations (it should be something realistic).
+
+More information about [PARENT](https://github.com/markusfleck/PARENT) software you can find in paper:
+
+"PARENT: A Parallel Software Suite for the Calculation of Configurational Entropy in Biomolecular Systems"
+DOI: 10.1021/acs.jctc.5b01217
+
+[PARENT](https://github.com/markusfleck/PARENT) can be run on your cluster - just download everything from the Github. Here is example of submit script:
+
+~~~
+#!/bin/bash
+#SBATCH -n 16
+#SBATCH -p CLUSTER
+#SBATCH -t 03-00:00:00
+
+
+ml purge
+ml load openmpi gcc
+
+/home/ttandaric/PARENT/run.sh parameters
+~~~
+
+Calculation takes some time (~8h) just check is it running ok (first it should write PARENT.bat file, then calculate MIST and MIE). 
+
+## 4. Calculation of configurational entropy and mutual information ##
+
+
+
+
+
+
+
 
 
