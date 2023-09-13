@@ -205,7 +205,29 @@ ml load openmpi gcc
 
 Calculation takes some time (~8h) just check is it running ok (first it should write PARENT.bat file, then calculate MIST and MIE). 
 
-## 4. Calculation of configurational entropy and mutual information ##
+## 4. Analysis of mutual information  ##
+
+Download [ARTEMIS](https://github.com/nalsur-veallam/ARTEMIS), a framework with scripts for the analysis and clustering of molecular systems according to data obtained using the [PARENT](https://github.com/markusfleck/PARENT) package, to your PC. 
+
+You will need g++ and python libraries to work: numpy, pandas, seaborn, json, pylab, sklearn and scipy. For visualising you will use [Pymol](https://pymol.org/2/). The simplest solution is to have one conda enviroment that contains everything. 
+
+Download [PARENT](https://github.com/markusfleck/PARENT) results localy and use [ARTEMIS](https://github.com/nalsur-veallam/ARTEMIS) utilities to analyse your results. 
+
+Run in turn:
+~~~
+bash gen_map.sh
+
+bash tools.sh
+
+bash clustering.sh
+
+bash analysis.sh
+~~~
+
+After obtaining results, run command:
+
+ 
+
 
 
 
