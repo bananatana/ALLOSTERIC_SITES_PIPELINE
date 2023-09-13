@@ -7,8 +7,7 @@ The protocol is divided into several stages:
 **2.** MD simulations  
 **3.** Processing trajectories for analysis  
 **4.** Calculation of configurational entropy and mutual information  
-**5.** Analysis of mutual information  
-**6.** Identification of allosteric sites  
+**5.** Analysis of mutual information and identification of allosteric sites  
 
 
 ## 1. System preparation for MD simulations ##
@@ -179,7 +178,7 @@ For visualisation, open traj_centered_to_start.xtc on top of start.gro. The visu
 
 I also use [TrajMap](https://github.com/matkozic/TrajMap) to visualise stabily of receptor throught the simulation. 
 
-## 4. Calculation of configurational entropy and mutual information ##
+## 4. Calculation of configurational entropy and Mutual Information (MI) ##
 
 After obtaining clean GPCR trajectories, use [PARENT](https://github.com/markusfleck/PARENT).  It calculates the configurational entropy according to the pairwise Mutual Information Expansion (MIE) or the Maximum Information Spanning Tree (MIST). Although MIST is based on a different mathematical framework than MIE, it relies on the same terms to be computed as for MIE. [PARENT](https://github.com/markusfleck/PARENT) gives both results, but MIST results seems to be more converged. The easiest way to assess how good and meaningful the results are is to calculate the	ΔS between the inactive and active conformations (it should be something realistic).
 
@@ -205,7 +204,7 @@ ml load openmpi gcc
 
 Calculation takes some time (~8h) just check is it running ok (first it should write PARENT.bat file, then calculate MIST and MIE). 
 
-## 4. Analysis of mutual information  ##
+## 5. Analysis of Mutual Information and identification of allosteric sites  ##
 
 Download [ARTEMIS](https://github.com/nalsur-veallam/ARTEMIS), a framework with scripts for the analysis and clustering of molecular systems according to data obtained using the [PARENT](https://github.com/markusfleck/PARENT) package, to your PC. 
 
@@ -235,8 +234,9 @@ After obtaining results, run command:
 python3 src/python/allostery_paint.py -strc sctructure.pdb(.gro ...) -f_act act_site.json -asn act_site_name -f_all all_site.json -allsn all_site_name -n project_name
 ~~~
 
-to get visual representation of MI intensity in a form of Pymol session. 
+to get visual representation of MI intensity in a form of Pymol session. You should  be able to visually identify the allosteric sites in the 3D view as the places where MI coupling to the orthosteric binding site is most intense. 
  
+
 
 
 
