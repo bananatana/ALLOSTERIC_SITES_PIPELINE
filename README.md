@@ -1,6 +1,7 @@
 # GPCR ALLOSTERIC SITE SEARCH PIPELINE #
 
-A framework that uses a combination of different scripts to analyze allosteric connectivity within GPCR proteins and and identifies possible allosteric sites. 
+A framework that uses a combination of different scripts to analyze allosteric connectivity within GPCR proteins and and identifies possible allosteric sites. Pipeline uses extensive MD simulations [GROMACS](https://www.gromacs.org/) which are used as a base to calculate Mutual Information (MI) with [PARENT](https://github.com/markusfleck/PARENT) package. The obtained MI is then analysed with [ARTEMIS](https://github.com/nalsur-veallam/ARTEMIS) script package. 
+
 The protocol is divided into several stages:
 
 **1.** System preparation for MD simulations  
