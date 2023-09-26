@@ -203,6 +203,38 @@ ml load openmpi gcc
 /home/ttandaric/PARENT/run.sh parameters
 ~~~
 
+Parameter file looks like this: 
+~~~
+#!/bin/bash
+
+# Specify the GROMACS .xtc ¸and .top input files relative to the top directory
+TRJ="same_lenght_A2A_active_G_protein/traj_protein.xtc"
+TOP="same_lenght_A2A_active_G_protein/topol.top"
+GRO="same_lenght_A2A_active_G_protein/protein.gro"
+
+#Optional: Specify the index file and the group names for which (leave blank if not wanted)
+NDX=""
+GRP1=""
+GRP2=""
+
+# Specify your output directory
+OUTDIR=output_same_lenght_A2A_active_G_protein
+
+# Use the name of the working directory as a base name for the output files ( you can change this to e. g. to name="my_project" if you prefer )
+NAME=`pwd | awk 'BEGIN{FS="/"}{print $(NF)}'`
+
+# Specify the number of  bins for bonds, angles and dihedrals (torsions) you want PARENT.x to use for building the 1D and 2D histograms for entropy calculation.
+BBINS1D=50
+ABINS1D=50
+DBINS1D=50
+BBINS2D=50
+ABINS2D=50
+DBINS2D=50
+
+#  Specify the name of the backbone atoms as in the .top file (can be left empty, but gives more accurate results)
+BACKBONE_ATOMS="CA C N H1 O1"
+~~~
+You can vary which parts of the system you take into analysis, the size of the bins, the output...
 Calculation takes some time (~8h) just check is it running ok (first it should write PARENT.bat file, then calculate MIST and MIE). 
 
 ## 5. Analysis of Mutual Information and identification of allosteric sites  ##
